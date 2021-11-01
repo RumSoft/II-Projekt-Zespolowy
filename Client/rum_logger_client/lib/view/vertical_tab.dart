@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:rum_logger_client/service/user_service.dart';
+
+import 'main_page.dart';
 
 class TabData {
   final Tab tab;
-  final Widget content;
+  UserContent content;
 
   TabData(this.tab, this.content);
 }
@@ -13,7 +16,7 @@ class VerticalTabs extends StatefulWidget {
   final double tabsWidth;
   final double itemExtent;
   final double indicatorWidth;
-  final List<TabData>? tabData;
+  List<TabData>? tabData;
   final TextDirection direction;
   final Color indicatorColor;
   final bool disabledChangePageFromContentView;
@@ -25,14 +28,14 @@ class VerticalTabs extends StatefulWidget {
   final Curve changePageCurve;
   final Color tabsShadowColor;
   final double tabsElevation;
-  const VerticalTabs(
+  VerticalTabs(
       {this.key,
       this.tabData,
       this.tabsWidth = 200,
       this.itemExtent = 50,
       this.indicatorWidth = 3,
       this.direction = TextDirection.ltr,
-      this.indicatorColor = Colors.orange,
+      this.indicatorColor = Colors.orangeAccent,
       this.disabledChangePageFromContentView = false,
       this.contentScrollAxis = Axis.horizontal,
       this.selectedTabBackgroundColor = Colors.white10,
@@ -50,6 +53,7 @@ class VerticalTabs extends StatefulWidget {
 
 class _VerticalTabsState extends State<VerticalTabs>
     with TickerProviderStateMixin {
+  UserService userService = UserService();
   int _selectedIndex = 0;
   late bool? _changePageByTapView;
   late AnimationController animationController;
@@ -259,6 +263,14 @@ class _VerticalTabsState extends State<VerticalTabs>
     for (AnimationController animationController in animationControllers) {
       animationController.reset();
     }
+    userService.GetUserLogs(0).then((value) => {
+          setState(() {
+            widget.tabData![index].content.description = value;
+          })
+
+          //if(widget.tabData![index].content.scrrollController.position == ScrollPosition.)
+        });
+
     animationControllers[index].forward();
   }
 }

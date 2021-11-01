@@ -12,7 +12,8 @@ class UserService {
   }
 
   Future<String> GetUserLogs(int userId) async {
-    var log = """
+    var log = userId.toString() +
+        """
     jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
     jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
     jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
@@ -47,6 +48,26 @@ class UserService {
     jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
     jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
     jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+
     """;
     return log;
   }
