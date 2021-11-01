@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rum_logger_client/service/user_service.dart';
 
 import 'vertical_tab.dart';
 
@@ -9,27 +10,35 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Container(
-      child: VerticalTabs(
-        tabsWidth: 80,
-        direction: TextDirection.ltr,
-        contentScrollAxis: Axis.vertical,
-        changePageDuration: Duration(milliseconds: 500),
-        tabs: <Tab>[
-          Tab(child: Text('Flutter')),
-          Tab(child: Text('Dart')),
-          Tab(child: Text('NodeJS')),
-          Tab(child: Text('PHP')),
-        ],
-        contents: <Widget>[
-          tabsContent('Flutter', 'www.fluttertutorial.in'),
-          tabsContent('Dart'),
-          tabsContent('NodeJS'),
-          tabsContent('PHP'),
-        ],
-      ),
-    ));
+    return Center(
+      child: SafeArea(
+          child: Container(
+        width: 1200,
+        child: VerticalTabs(
+          tabsWidth: 120,
+          direction: TextDirection.ltr,
+          contentScrollAxis: Axis.vertical,
+          changePageDuration: Duration(milliseconds: 500),
+          tabData: <TabData>[
+            TabData(Tab(child: Text('Flutter1')),
+                tabsContent('Flutter1', 'www.fluttertutorial.in')),
+          ],
+        ),
+      )),
+    );
+  }
+
+  List<TabData> GetUserList() {
+    var userService = UserService();
+    List<TabData> list = <TabData>[];
+    var users = userService.GetUserList().then((value) => {
+          for (var item in value)
+            {
+              list.add(TabData(Tab(child: Text('Flutter1')),
+                  tabsContent('Flutter1', 'www.fluttertutorial.in')))
+            }
+        });
+    return list;
   }
 
   Widget tabsContent(String caption, [String description = '']) {
@@ -40,15 +49,42 @@ class MainPage extends StatelessWidget {
         children: <Widget>[
           Text(
             caption,
-            style: TextStyle(fontSize: 25),
+            style: TextStyle(fontSize: 20),
           ),
           Divider(
-            height: 20,
+            height: 15,
             color: Colors.black45,
           ),
-          Text(
-            description,
-            style: TextStyle(fontSize: 15, color: Colors.black87),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                    child: Material(
+                        color: Colors.black,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text('data',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(color: Colors.white)),
+                        ))),
+                VerticalDivider(
+                  width: 15,
+                  color: Colors.black45,
+                ),
+                Container(
+                  width: 400,
+                  child: Material(
+                      color: Colors.black,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text('data',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(color: Colors.white)),
+                      )),
+                )
+              ],
+            ),
           ),
         ],
       ),

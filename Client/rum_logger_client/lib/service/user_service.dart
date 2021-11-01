@@ -3,10 +3,10 @@ import 'package:rum_logger_client/model/user.dart';
 class UserService {
   Future<List<User>> GetUserList() async {
     var list = [
-      User(1, "first poor user"),
-      User(2, "second poor user"),
-      User(3, "third poor user"),
-      User(4, "next poor user"),
+      User(1, "first user"),
+      User(2, "second user"),
+      User(3, "third user"),
+      User(4, "next user"),
     ];
     return list;
   }
