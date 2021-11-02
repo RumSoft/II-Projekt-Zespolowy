@@ -39,8 +39,9 @@ class _MainPageState extends State<MainPage> {
           setState(() {
             var list = <TabData>[];
             for (var item in value) {
+              var gk = GlobalKey<UserContentState>();
               list.add(TabData(Tab(child: Text(item.Name)),
-                  UserContent(caption: item.Name)));
+                  UserContent(key: gk, caption: item.Name), item.Id, gk));
             }
             vtabs.tabData = list;
           })
@@ -49,13 +50,29 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
-class UserContent extends StatelessWidget {
+class UserContent extends StatefulWidget {
   UserContent({Key? key, required this.caption, this.description = ''})
       : super(key: key);
 
   String caption;
   String description;
+
+  @override
+  State<UserContent> createState() => UserContentState();
+}
+
+class UserContentState extends State<UserContent> {
   final ScrollController? scrrollController = ScrollController();
+
+  methodInChild(String desc) => setState(() {
+        widget.description = desc;
+      });
+
+  refresh(String desc) {
+    setState(() {
+      widget.description = desc;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +82,7 @@ class UserContent extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-            caption,
+            widget.caption,
             style: TextStyle(fontSize: 20),
           ),
           Divider(
@@ -88,8 +105,8 @@ class UserContent extends StatelessWidget {
                               radius: Radius.circular(20),
                               thickness: 5,
                               child: SingleChildScrollView(
-                                reverse: true,
-                                child: Text(description,
+                                reverse: false,
+                                child: Text(widget.description,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(color: Colors.white)),
                               ),

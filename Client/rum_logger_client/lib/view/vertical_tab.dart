@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:rum_logger_client/service/user_service.dart';
 
@@ -6,8 +8,10 @@ import 'main_page.dart';
 class TabData {
   final Tab tab;
   UserContent content;
+  final int id;
+  GlobalKey<UserContentState> globalKey;
 
-  TabData(this.tab, this.content);
+  TabData(this.tab, this.content, this.id, this.globalKey);
 }
 
 /// A vertical tab widget for flutter
@@ -74,7 +78,20 @@ class _VerticalTabsState extends State<VerticalTabs>
 
     pageScrollPhysics = NeverScrollableScrollPhysics();
     super.initState();
-  }
+    const oneSec = Duration(seconds: 1);
+
+    var index = _selectedIndex;
+    Timer.periodic(
+        oneSec,
+        (Timer t) => userService.GetUserLogs(widget.tabData![_selectedIndex].id,
+                widget.tabData![_selectedIndex].content.description)
+            .then((value) => {
+                  setState(() {
+                    widget.tabData![_selectedIndex].globalKey.currentState!
+                        .refresh(value);
+                  })
+                }));
+  } //TODO make id safe
 
   @override
   Widget build(BuildContext context) {
@@ -263,13 +280,13 @@ class _VerticalTabsState extends State<VerticalTabs>
     for (AnimationController animationController in animationControllers) {
       animationController.reset();
     }
-    userService.GetUserLogs(0).then((value) => {
-          setState(() {
-            widget.tabData![index].content.description = value;
-          })
-
-          //if(widget.tabData![index].content.scrrollController.position == ScrollPosition.)
-        });
+    userService.GetUserLogs(widget.tabData![index].id,
+            widget.tabData![index].content.description)
+        .then((value) => {
+              setState(() {
+                widget.tabData![index].content.description = value;
+              })
+            });
 
     animationControllers[index].forward();
   }

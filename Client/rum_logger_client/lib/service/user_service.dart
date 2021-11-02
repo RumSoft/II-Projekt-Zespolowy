@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:rum_logger_client/model/user.dart';
 
 class UserService {
@@ -11,7 +13,16 @@ class UserService {
     return list;
   }
 
-  Future<String> GetUserLogs(int userId) async {
+  static const _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890 ';
+  Random _rnd = Random();
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+  Future<String> GetUserLogs(int userId, [String? description]) async {
+    if (description != null) return description + getRandomString(5);
+
     var log = userId.toString() +
         """
     jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
