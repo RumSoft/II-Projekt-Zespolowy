@@ -106,7 +106,7 @@ class UserContentState extends State<UserContent> {
                               thickness: 5,
                               child: SingleChildScrollView(
                                 reverse: false,
-                                child: Text(widget.description,
+                                child: SelectableText(widget.description,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(color: Colors.white)),
                               ),
