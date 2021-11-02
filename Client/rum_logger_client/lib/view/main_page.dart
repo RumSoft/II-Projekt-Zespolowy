@@ -81,8 +81,7 @@ class _OnlineWidgetState extends State<OnlineWidget> {
   UserService userService = UserService();
   Color iconColor = Colors.green;
 
-  @override
-  Widget build(BuildContext context) {
+  _OnlineWidgetState() {
     const oneSec = Duration(seconds: 10);
 
     Timer.periodic(
@@ -94,7 +93,9 @@ class _OnlineWidgetState extends State<OnlineWidget> {
                         iconColor = value ? Colors.green : Colors.red;
                       })
                     }));
-
+  }
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Icon(

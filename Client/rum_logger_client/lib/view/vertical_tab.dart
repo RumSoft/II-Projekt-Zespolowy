@@ -112,9 +112,9 @@ class _VerticalTabsState extends State<VerticalTabs>
             padding: EdgeInsets.all(5),
             child: Column(
               children: <Widget>[
-                Text(
-                  'RumLogger',
-                  style: TextStyle(fontSize: 35),
+                Image(
+                  image: AssetImage('assets/logo-2.png'),
+                  width: 300,
                 ),
                 Divider(
                   height: 5,
