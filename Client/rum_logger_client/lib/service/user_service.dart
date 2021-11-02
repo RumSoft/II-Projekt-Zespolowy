@@ -20,6 +20,11 @@ class UserService {
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
+  Future<bool> IsUserOnline(int user, [bool? earlierState]) async {
+    if (earlierState != null) return !earlierState;
+    return true;
+  }
+
   Future<String> GetUserLogs(int userId, [String? description]) async {
     if (description != null) return description + getRandomString(5);
 

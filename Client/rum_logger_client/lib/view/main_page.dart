@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:rum_logger_client/service/user_service.dart';
 
@@ -40,8 +42,21 @@ class _MainPageState extends State<MainPage> {
             var list = <TabData>[];
             for (var item in value) {
               var gk = GlobalKey<UserContentState>();
-              list.add(TabData(Tab(child: Text(item.Name)),
-                  UserContent(key: gk, caption: item.Name), item.Id, gk));
+              list.add(TabData(
+                  Tab(
+                      child: Row(
+                    children: [
+                      OnlineWidget(item.Id),
+                      Text(item.Name),
+                    ],
+                  )),
+                  UserContent(
+                    key: gk,
+                    caption: item.Name,
+                    Id: item.Id,
+                  ),
+                  item.Id,
+                  gk));
             }
             vtabs.tabData = list;
           })
@@ -50,12 +65,58 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
+class OnlineWidget extends StatefulWidget {
+  final int Id;
+
+  const OnlineWidget(
+    this.Id, {
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<OnlineWidget> createState() => _OnlineWidgetState();
+}
+
+class _OnlineWidgetState extends State<OnlineWidget> {
+  UserService userService = UserService();
+  Color iconColor = Colors.green;
+
+  @override
+  Widget build(BuildContext context) {
+    const oneSec = Duration(seconds: 10);
+
+    Timer.periodic(
+        oneSec,
+        (Timer t) =>
+            userService.IsUserOnline(widget.Id, iconColor == Colors.green)
+                .then((value) => {
+                      setState(() {
+                        iconColor = value ? Colors.green : Colors.red;
+                      })
+                    }));
+
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Icon(
+        Icons.circle,
+        size: 10,
+        color: iconColor,
+      ),
+    );
+  }
+}
+
 class UserContent extends StatefulWidget {
-  UserContent({Key? key, required this.caption, this.description = ''})
+  UserContent(
+      {Key? key,
+      required this.caption,
+      required this.Id,
+      this.description = ''})
       : super(key: key);
 
   String caption;
   String description;
+  int Id;
 
   @override
   State<UserContent> createState() => UserContentState();
@@ -81,9 +142,14 @@ class UserContentState extends State<UserContent> {
       padding: EdgeInsets.all(2),
       child: Column(
         children: <Widget>[
-          Text(
-            widget.caption,
-            style: TextStyle(fontSize: 20),
+          Row(
+            children: [
+              OnlineWidget(widget.Id),
+              Text(
+                widget.caption,
+                style: TextStyle(fontSize: 20),
+              ),
+            ],
           ),
           Divider(
             height: 15,
