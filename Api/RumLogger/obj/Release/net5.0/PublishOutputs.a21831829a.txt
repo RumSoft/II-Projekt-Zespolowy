@@ -1,0 +1,11 @@
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\RumLogger.exe
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\appsettings.Development.json
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\appsettings.json
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\RumLogger.dll
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\RumLogger.deps.json
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\RumLogger.runtimeconfig.json
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\RumLogger.pdb
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\Microsoft.OpenApi.dll
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\obj\Release\net5.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
