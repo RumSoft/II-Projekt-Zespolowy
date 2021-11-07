@@ -44,5 +44,10 @@ namespace RumLogger.Infrastructure.Repository
             context.SaveChanges();
             return Task.CompletedTask;
         }
+
+        public Task<List<User>> GetUsersWithInactiveFilter()
+        {
+            return Task.FromResult(context.Users.Where(x => !x.IsFilterActive).ToList());
+        }
     }
 }

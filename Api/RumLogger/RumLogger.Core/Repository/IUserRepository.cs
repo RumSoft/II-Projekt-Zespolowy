@@ -11,5 +11,6 @@ namespace RumLogger.Core.Repository
         Task<List<User>> GetUsers();
         Task UpdateUser(User user);
         Task AddUser(User user);
+        Task<List<User>> GetUsersWithInactiveFilter();
     }
 }

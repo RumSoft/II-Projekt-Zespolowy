@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RumLogger.Application.Service
+namespace RumLogger.Application.Service.Interfaces
 {
     public interface IUserService
     {

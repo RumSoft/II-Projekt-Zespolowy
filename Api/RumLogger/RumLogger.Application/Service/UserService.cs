@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RumLogger.Core;
 using RumLogger.Core.Entity;
+using RumLogger.Application.Service.Interfaces;
 
 namespace RumLogger.Application.Service
 {

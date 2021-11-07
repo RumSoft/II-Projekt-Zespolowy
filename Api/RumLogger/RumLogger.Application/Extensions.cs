@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RumLogger.Application.Service;
+using RumLogger.Application.Service.Interfaces;
 
 namespace RumLogger.Application
 {
@@ -8,6 +9,7 @@ namespace RumLogger.Application
         public static IServiceCollection AddApplication(this IServiceCollection builder)
         {
             builder.AddScoped<IUserService, UserService>();
+            builder.AddScoped<IFilterService, FilterService>();
             return builder;
         }
     }

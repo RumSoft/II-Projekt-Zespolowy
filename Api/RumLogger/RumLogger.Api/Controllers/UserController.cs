@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RumLogger.Application.Models;
 using RumLogger.Application.Service;
+using RumLogger.Application.Service.Interfaces;
 using RumLogger.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,9 +13,11 @@ namespace RumLogger.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService userService;
-        public UserController(IUserService userService)
+        private readonly IFilterService filterService;
+        public UserController(IUserService userService, IFilterService filterService)
         {
             this.userService = userService;
+            this.filterService = filterService;
         }
 
         [HttpPost("[action]")]
@@ -25,6 +28,13 @@ namespace RumLogger.Api.Controllers
 
             await userService.AddUserData(request);
 
+            return Ok();
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult> UpdateFilteredLogs()
+        {
+            await filterService.UpdateFileredLogs();
             return Ok();
         }
 
