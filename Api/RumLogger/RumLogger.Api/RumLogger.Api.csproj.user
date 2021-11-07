@@ -5,5 +5,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>RumLogger.Api</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\user\Documents\repos\RumLogger\Api\RumLogger\RumLogger.Api\Properties\PublishProfiles\RumLogger - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
