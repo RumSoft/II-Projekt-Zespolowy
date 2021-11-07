@@ -13,6 +13,11 @@ namespace RumLogger.Core
             if (value == null)
                 return false;
 
+            if (value == "1")
+                return true;
+            else if (value == "0")
+                return false;
+
             if (bool.TryParse(value, out bool newValue))
                 return newValue;
 

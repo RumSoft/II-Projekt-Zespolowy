@@ -13,11 +13,9 @@ namespace RumLogger.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService userService;
-        private readonly IFilterService filterService;
-        public UserController(IUserService userService, IFilterService filterService)
+        public UserController(IUserService userService)
         {
             this.userService = userService;
-            this.filterService = filterService;
         }
 
         [HttpPost("[action]")]
@@ -28,13 +26,6 @@ namespace RumLogger.Api.Controllers
 
             await userService.AddUserData(request);
 
-            return Ok();
-        }
-
-        [HttpPost("[action]")]
-        public async Task<ActionResult> UpdateFilteredLogs()
-        {
-            await filterService.UpdateFileredLogs();
             return Ok();
         }
 
