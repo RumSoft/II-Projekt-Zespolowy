@@ -1,7 +1,5 @@
-﻿using System;
+﻿using RumLogger.Core.Entity;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RumLogger.Core.Repository
@@ -9,6 +7,9 @@ namespace RumLogger.Core.Repository
     public interface IUserRepository
     {
         Task<int> GetUserId(string name);
-
+        Task<User> GetUser(int id);
+        Task<List<User>> GetUsers();
+        Task UpdateUser(User user);
+        Task AddUser(User user);
     }
 }

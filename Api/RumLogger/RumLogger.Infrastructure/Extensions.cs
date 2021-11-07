@@ -8,7 +8,7 @@ namespace RumLogger.Application
 {
     public static class Extenstions
     {
-        public static IServiceCollection AddApplication(this IServiceCollection builder)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection builder)
         {
             builder.AddRepositories();
             builder.AddDbContext<Context>(opt => opt.UseInMemoryDatabase("RumLogger"));

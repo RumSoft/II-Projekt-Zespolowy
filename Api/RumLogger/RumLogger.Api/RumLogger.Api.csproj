@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RumLogger.Application\RumLogger.Application.csproj" />
+    <ProjectReference Include="..\RumLogger.Infrastructure\RumLogger.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
