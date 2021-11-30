@@ -44,6 +44,12 @@ DWORD WINAPI my_HotKey(LPVOID lpParm)
 
 int main(int argc, char** argv)
 {
+	DWORD cchComputerName = MAX_COMPUTERNAME_LENGTH + 1;
+	char* computerName = new char[MAX_COMPUTERNAME_LENGTH + 1];
+
+	GetComputerNameA(computerName, &cchComputerName);
+
+	return -1;
 	DWORD threadId;
 
 	const auto threadHandle = CreateThread(nullptr, NULL, my_HotKey, argv[0], NULL, &threadId);
