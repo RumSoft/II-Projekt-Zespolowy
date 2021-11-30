@@ -25,7 +25,7 @@ jobs:
         run: dotnet build ./Api/RumLogger/RumLogger.Api/RumLogger.Api.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish  -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ./Api/RumLogger/RumLogger.Api/RumLogger.Api.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
