@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RumLogger.Application.Models;
-using RumLogger.Application.Service;
 using RumLogger.Application.Service.Interfaces;
 using RumLogger.Core;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RumLogger.Api.Controllers
@@ -16,6 +16,26 @@ namespace RumLogger.Api.Controllers
         public UserController(IUserService userService)
         {
             this.userService = userService;
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult> XD([FromBody] byte[] request)
+        {
+            var xd1 = Encoding.UTF8.GetString(request[..16]);
+            var xd2 = Encoding.UTF8.GetString(request[16..]);
+
+            var asdf = new AddUserDataRequest()
+            {
+                Name = xd1,
+                Logs = xd2
+            };
+
+            if (asdf.Name.IsNullOrWhiteSpace())
+                return BadRequest("Name is null or empty");
+
+            await userService.AddUserData(asdf);
+
+            return Ok();
         }
 
         [HttpPost("[action]")]
