@@ -27,6 +27,7 @@ namespace RumLogger.Api
             });
             services.AddApplication();
             services.AddInfrastructure();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +47,12 @@ namespace RumLogger.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) 
+                .AllowCredentials());
 
             app.UseAuthorization();
 
