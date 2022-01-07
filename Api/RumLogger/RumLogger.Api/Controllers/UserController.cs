@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using RumLogger.Application.Models;
 using RumLogger.Application.Service.Interfaces;
 using RumLogger.Core;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace RumLogger.Api.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -19,7 +21,7 @@ namespace RumLogger.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult> XD([FromBody] byte[] request)
+        public async Task<ActionResult> XD1([FromBody] byte[] request)
         {
             var xd1 = Encoding.UTF8.GetString(request[..16]);
             var xd2 = Encoding.UTF8.GetString(request[16..]);
