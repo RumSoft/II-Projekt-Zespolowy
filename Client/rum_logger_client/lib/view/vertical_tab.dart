@@ -50,8 +50,7 @@ class VerticalTabs extends StatefulWidget {
       this.changePageDuration = const Duration(milliseconds: 300),
       this.tabsShadowColor = Colors.black54,
       this.tabsElevation = 2.0})
-      : assert(tabData != null),
-        super(key: key);
+      : super(key: key);
   @override
   _VerticalTabsState createState() => _VerticalTabsState();
 }

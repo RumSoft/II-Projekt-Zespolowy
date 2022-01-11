@@ -192,18 +192,15 @@ class UserContentState extends State<UserContent> {
                         color: Colors.black,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Expanded(
-                            flex: 1,
-                            child: RawScrollbar(
-                              thumbColor: Colors.orangeAccent,
-                              radius: Radius.circular(20),
-                              thickness: 5,
-                              child: SingleChildScrollView(
-                                reverse: false,
-                                child: SelectableText(widget.description.Log,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(color: Colors.white)),
-                              ),
+                          child: RawScrollbar(
+                            thumbColor: Colors.orangeAccent,
+                            radius: Radius.circular(20),
+                            thickness: 5,
+                            child: SingleChildScrollView(
+                              reverse: false,
+                              child: SelectableText(widget.description.Log,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(color: Colors.white)),
                             ),
                           ),
                         ))),
@@ -217,19 +214,16 @@ class UserContentState extends State<UserContent> {
                         color: Colors.black,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Expanded(
-                            flex: 1,
-                            child: RawScrollbar(
-                              thumbColor: Colors.orangeAccent,
-                              radius: Radius.circular(20),
-                              thickness: 5,
-                              child: SingleChildScrollView(
-                                reverse: false,
-                                child: SelectableText(
-                                    widget.description.FilteredLogs,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(color: Colors.white)),
-                              ),
+                          child: RawScrollbar(
+                            thumbColor: Colors.orangeAccent,
+                            radius: Radius.circular(20),
+                            thickness: 5,
+                            child: SingleChildScrollView(
+                              reverse: false,
+                              child: SelectableText(
+                                  widget.description.FilteredLogs,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(color: Colors.white)),
                             ),
                           ),
                         )))
