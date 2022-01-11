@@ -1,15 +1,17 @@
 import 'dart:math';
 
+import 'package:rum_logger_client/client/user_client.dart';
 import 'package:rum_logger_client/model/user.dart';
+import 'package:rum_logger_client/view/main_page.dart';
+
+class DataService {
+  static Map<int, UserDetails> users = new Map();
+}
 
 class UserService {
   Future<List<User>> GetUserList() async {
-    var list = [
-      User(1, "first user"),
-      User(2, "second user"),
-      User(3, "third user"),
-      User(4, "next user"),
-    ];
+    var userClient = new UserClient();
+    var list = await userClient.GetUserList();
     return list;
   }
 
@@ -20,71 +22,24 @@ class UserService {
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-  Future<bool> IsUserOnline(int user, [bool? earlierState]) async {
-    if (earlierState != null) return !earlierState;
-    return true;
+  Future<bool> IsUserOnline(int userId, [bool? earlierState]) async {
+    if (!DataService.users.containsKey(userId)) return false;
+    var lastLogged = DataService.users[userId]?.LastLogged ?? DateTime.now();
+    var span = DateTime.now().difference(lastLogged).inSeconds;
+    if (span > 80)
+      return false;
+    else
+      return true;
   }
 
-  Future<String> GetUserLogs(int userId, [String? description]) async {
-    if (description != null) return description + getRandomString(5);
+  Future<UserLogs> GetUserLogs(int userId, [String? description]) async {
+    var userClient = new UserClient();
+    var user = await userClient.GetUserDetails(userId);
 
-    var log = userId.toString() +
-        """
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
-    jhsjhd djhdsds dkjhsdk dabhdjds dsdsjhjds 
+    if (user == null)
+      return new UserLogs(userId.toString() + getRandomString(10), "");
 
-    """;
-    return log;
+    DataService.users[userId] = user;
+    return new UserLogs(user.Logs, user.FilteredLogs);
   }
 }

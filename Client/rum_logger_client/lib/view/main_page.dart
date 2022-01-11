@@ -15,28 +15,49 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  var pkey = GlobalKey<UserContentState>();
   VerticalTabs vtabs = VerticalTabs(
     tabsWidth: 120,
     direction: TextDirection.ltr,
     contentScrollAxis: Axis.vertical,
     changePageDuration: Duration(milliseconds: 500),
-    tabData: <TabData>[],
+    tabData: <TabData>[
+      //   TabData(
+      //       Tab(
+      //           child: Row(
+      //         children: [
+      //           OnlineWidget(0),
+      //           Text("no users"),
+      //         ],
+      //       )),
+      //       UserContent(
+      //         key: GlobalKey<UserContentState>(),
+      //         caption: "no users",
+      //         Id: 0,
+      //       ),
+      //       0,
+      //       GlobalKey<UserContentState>())
+    ],
   );
-
+  bool loading = true;
   _MainPageState() {
     GetUserList();
   }
-
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SafeArea(child: Container(width: 1200, child: vtabs)),
-    );
+    return loading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : Center(
+            child: SafeArea(child: Container(width: 1200, child: vtabs)),
+          );
   }
 
   List<TabData> GetUserList() {
     var userService = UserService();
     List<TabData> list = <TabData>[];
+
     var users = userService.GetUserList().then((value) => {
           setState(() {
             var list = <TabData>[];
@@ -59,6 +80,7 @@ class _MainPageState extends State<MainPage> {
                   gk));
             }
             vtabs.tabData = list;
+            loading = false;
           })
         });
     return list;
@@ -107,17 +129,20 @@ class _OnlineWidgetState extends State<OnlineWidget> {
   }
 }
 
+class UserLogs {
+  String Log = "";
+  String FilteredLogs = "";
+  UserLogs(this.Log, this.FilteredLogs);
+}
+
 class UserContent extends StatefulWidget {
-  UserContent(
-      {Key? key,
-      required this.caption,
-      required this.Id,
-      this.description = ''})
+  UserContent({Key? key, required this.caption, required this.Id})
       : super(key: key);
 
   String caption;
-  String description;
+  UserLogs description = UserLogs("", "");
   int Id;
+  bool loading = true;
 
   @override
   State<UserContent> createState() => UserContentState();
@@ -126,13 +151,15 @@ class UserContent extends StatefulWidget {
 class UserContentState extends State<UserContent> {
   final ScrollController? scrrollController = ScrollController();
 
-  methodInChild(String desc) => setState(() {
-        widget.description = desc;
+  methodInChild(UserLogs desc) => setState(() {
+        widget.description.Log = desc.Log;
+        widget.description.FilteredLogs = desc.FilteredLogs;
       });
 
-  refresh(String desc) {
+  refresh(UserLogs desc) {
     setState(() {
-      widget.description = desc;
+      widget.description.Log = desc.Log;
+      widget.description.FilteredLogs = desc.FilteredLogs;
     });
   }
 
@@ -173,7 +200,7 @@ class UserContentState extends State<UserContent> {
                               thickness: 5,
                               child: SingleChildScrollView(
                                 reverse: false,
-                                child: SelectableText(widget.description,
+                                child: SelectableText(widget.description.Log,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(color: Colors.white)),
                               ),
@@ -185,16 +212,27 @@ class UserContentState extends State<UserContent> {
                   color: Colors.black45,
                 ),
                 Container(
-                  width: 400,
-                  child: Material(
-                      color: Colors.black,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text('',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(color: Colors.white)),
-                      )),
-                )
+                    width: 400,
+                    child: Material(
+                        color: Colors.black,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Expanded(
+                            flex: 1,
+                            child: RawScrollbar(
+                              thumbColor: Colors.orangeAccent,
+                              radius: Radius.circular(20),
+                              thickness: 5,
+                              child: SingleChildScrollView(
+                                reverse: false,
+                                child: SelectableText(
+                                    widget.description.FilteredLogs,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            ),
+                          ),
+                        )))
               ],
             ),
           ),

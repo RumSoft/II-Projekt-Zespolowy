@@ -16,11 +16,12 @@ class TabData {
 
 /// A vertical tab widget for flutter
 class VerticalTabs extends StatefulWidget {
+  bool loading = false;
   final Key? key;
   final double tabsWidth;
   final double itemExtent;
   final double indicatorWidth;
-  List<TabData>? tabData;
+  List<TabData>? tabData = [];
   final TextDirection direction;
   final Color indicatorColor;
   final bool disabledChangePageFromContentView;
@@ -84,7 +85,7 @@ class _VerticalTabsState extends State<VerticalTabs>
     Timer.periodic(
         oneSec,
         (Timer t) => userService.GetUserLogs(widget.tabData![_selectedIndex].id,
-                widget.tabData![_selectedIndex].content.description)
+                widget.tabData![_selectedIndex].content.description.Log)
             .then((value) => {
                   setState(() {
                     widget.tabData![_selectedIndex].globalKey.currentState!
@@ -281,7 +282,7 @@ class _VerticalTabsState extends State<VerticalTabs>
       animationController.reset();
     }
     userService.GetUserLogs(widget.tabData![index].id,
-            widget.tabData![index].content.description)
+            widget.tabData![index].content.description.Log)
         .then((value) => {
               setState(() {
                 widget.tabData![index].content.description = value;
