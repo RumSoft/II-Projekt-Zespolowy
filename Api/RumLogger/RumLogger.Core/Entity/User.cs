@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RumLogger.Core.Entity
 {
@@ -6,9 +7,8 @@ namespace RumLogger.Core.Entity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Logs { get; set; }
+        public List<Log> Logs { get; set; }
         public DateTime LastUserLogTime { get; set; } 
-        public string FilteredLogs { get; set; }
-        public bool IsFilterActive { get; set; }
+        public bool IsProcessingUpToDate { get; set; }
     }
 }

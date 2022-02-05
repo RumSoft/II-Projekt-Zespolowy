@@ -1,4 +1,5 @@
-﻿using RumLogger.Core.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using RumLogger.Core.Entity;
 using RumLogger.Core.Repository;
 using RumLogger.Infrastructure.DataAccess;
 using System.Collections.Generic;
@@ -16,20 +17,20 @@ namespace RumLogger.Infrastructure.Repository
             this.context = context;
         }
 
-        public Task<int> GetUserId(string name)
+        public async Task<int> GetUserId(string name)
         {
-            return Task.FromResult(context.Users.FirstOrDefault(x => x.Name == name)?.Id ?? 0);
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Name == name);
+            return user?.Id ?? 0;
         }
 
-        public Task<User> GetUser(int id)
-        {
-            return Task.FromResult(context.Users.FirstOrDefault(x => x.Id == id));
-        }
+        public async Task<User> GetUser(int id) 
+            => await context.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-        public Task<List<User>> GetUsers()
-        {
-            return Task.FromResult(context.Users.ToList());
-        }
+        public async Task<User> GetUserWithLogs(int id)
+            => await context.Users.Include(x =>x.Logs).FirstOrDefaultAsync(x => x.Id == id);
+
+        public async Task<List<User>> GetUsers() 
+            => await context.Users.ToListAsync();
 
         public Task UpdateUser(User user)
         {
@@ -38,16 +39,22 @@ namespace RumLogger.Infrastructure.Repository
             return Task.CompletedTask;
         }
 
-        public Task AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
-            context.Users.Add(user);
+            var newUser = await context.Users.AddAsync(user);
             context.SaveChanges();
-            return Task.CompletedTask;
+            return newUser.Entity;
         }
 
         public Task<List<User>> GetUsersWithInactiveFilter()
         {
-            return Task.FromResult(context.Users.Where(x => !x.IsFilterActive).ToList());
+            return Task.FromResult(context.Users.Where(x => !x.IsProcessingUpToDate).ToList());
+        }
+
+        public async Task AddLog(Log log)
+        {
+            await context.Logs.AddAsync(log);
+            context.SaveChanges();
         }
     }
 }

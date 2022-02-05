@@ -9,7 +9,7 @@ namespace RumLogger.Application
         public static IServiceCollection AddApplication(this IServiceCollection builder)
         {
             builder.AddScoped<IUserService, UserService>();
-            builder.AddScoped<IFilterService, FilterService>();
+            builder.AddScoped<IProcessingLogsService, ProcessingLogsService>();
             return builder;
         }
     }

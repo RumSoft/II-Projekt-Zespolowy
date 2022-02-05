@@ -8,9 +8,11 @@ namespace RumLogger.Core.Repository
     {
         Task<int> GetUserId(string name);
         Task<User> GetUser(int id);
+        Task<User> GetUserWithLogs(int id);
         Task<List<User>> GetUsers();
         Task UpdateUser(User user);
-        Task AddUser(User user);
+        Task<User> AddUser(User user);
         Task<List<User>> GetUsersWithInactiveFilter();
+        Task AddLog(Log log);
     }
 }

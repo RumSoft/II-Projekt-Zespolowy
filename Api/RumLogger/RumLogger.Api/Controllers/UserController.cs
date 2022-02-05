@@ -21,26 +21,6 @@ namespace RumLogger.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult> XD1([FromBody] byte[] request)
-        {
-            var xd1 = Encoding.UTF8.GetString(request[..16]);
-            var xd2 = Encoding.UTF8.GetString(request[16..]);
-
-            var asdf = new AddUserDataRequest()
-            {
-                Name = xd1,
-                Logs = xd2
-            };
-
-            if (asdf.Name.IsNullOrWhiteSpace())
-                return BadRequest("Name is null or empty");
-
-            await userService.AddUserData(asdf);
-
-            return Ok();
-        }
-
-        [HttpPost("[action]")]
         public async Task<ActionResult> AddUserData([FromQuery] AddUserDataRequest request)
         {
             if (request.Name.IsNullOrWhiteSpace())

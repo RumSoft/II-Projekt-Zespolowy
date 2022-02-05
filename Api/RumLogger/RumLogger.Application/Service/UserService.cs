@@ -7,47 +7,58 @@ using System.Threading.Tasks;
 using RumLogger.Core;
 using RumLogger.Core.Entity;
 using RumLogger.Application.Service.Interfaces;
+using System.Text;
 
 namespace RumLogger.Application.Service
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository repository;
-        public UserService(IUserRepository repository)
+        private readonly IProcessingLogsService processingLogsService;
+
+        public UserService(IUserRepository repository, IProcessingLogsService processingLogsService)
         {
             this.repository = repository;
+            this.processingLogsService = processingLogsService;
         }
 
         public async Task AddUserData(AddUserDataRequest request)
         {
             var userId = await repository.GetUserId(request.Name);
+            User user;
 
-            if(userId.IsNotCorrectId())
+            if (userId.IsNotCorrectId())
             {
-                var user = new User()
+                user = new User()
                 {
                     Name = request.Name,
-                    Logs = request.Logs,
-                    IsFilterActive = false,
-                    FilteredLogs = string.Empty,
+                    IsProcessingUpToDate = false,
                     LastUserLogTime = DateTime.Now
                 };
-
-                await repository.AddUser(user);
+                user = await repository.AddUser(user);
             }
             else
             {
-                var user = await repository.GetUser(userId);
-                user.Logs += request.Logs;
-                user.IsFilterActive = false;
+                user = await repository.GetUser(userId);
+                user.IsProcessingUpToDate = false;
                 user.LastUserLogTime = DateTime.Now;
                 await repository.UpdateUser(user);
             }
+
+            var log = new Log
+            {
+                UserId = user.Id,
+                LogValue = request.Logs,
+                ProcessedLogValue = await processingLogsService.GetProcessedLogs(request.Logs),
+                DateTime = DateTime.Now,
+            };
+
+            await repository.AddLog(log);       
         }
 
         public async Task<UserDetails> GetUser(int id)
         {
-            var user = await repository.GetUser(id);
+            var user = await repository.GetUserWithLogs(id);
 
             if (user == null)
                 throw new Exception("User not found");
@@ -56,8 +67,8 @@ namespace RumLogger.Application.Service
             {
                 Id = user.Id,
                 Name = user.Name,
-                Logs = user.Logs,
-                FilteredLogs = user.FilteredLogs,
+                Logs = new StringBuilder().AppendJoin(" ", user.Logs.Select(x => x.LogValue).ToArray()).ToString(),
+                FilteredLogs = new StringBuilder().AppendJoin(" ", user.Logs.Select(x => x.ProcessedLogValue).ToArray()).ToString(),
                 LastLogged = user.LastUserLogTime
             };
             return result;

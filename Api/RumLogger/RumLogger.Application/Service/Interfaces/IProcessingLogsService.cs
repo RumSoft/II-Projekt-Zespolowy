@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RumLogger.Application.Service.Interfaces
 {
-    public interface IFilterService
+    public interface IProcessingLogsService
     {
-        Task UpdateFileredLogs();
+        Task<string> GetProcessedLogs(string logs);
     }
 }
