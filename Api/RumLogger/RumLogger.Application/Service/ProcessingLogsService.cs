@@ -21,18 +21,27 @@ namespace RumLogger.Application.Service
 
         public async Task<string> GetProcessedLogs(string logsValue)
         {
-            using (var client = new HttpClient())
+            try
             {
-                client.BaseAddress = new Uri(configuration.GetSection("LogProcessorUrl").Value);
-                var content = new StringContent(JsonConvert.SerializeObject(new
+                using (var client = new HttpClient())
                 {
-                    logs = logsValue
-                }), Encoding.UTF8, "application/json");
-                var result = await client.PostAsync("", content);
-                string resultContent = await result.Content.ReadAsStringAsync();
-                dynamic data = JObject.Parse(resultContent);
-                return data.logs ?? logsValue;
+                    client.BaseAddress = new Uri(configuration.GetSection("LogProcessorUrl").Value);
+                    var content = new StringContent(JsonConvert.SerializeObject(new
+                    {
+                        logs = logsValue
+                    }), Encoding.UTF8, "application/json");
+                    var result = await client.PostAsync("", content);
+                    string resultContent = await result.Content.ReadAsStringAsync();
+                    dynamic data = JObject.Parse(resultContent);
+                    return data.logs ?? logsValue;
+                }
             }
+            catch (Exception)
+            {
+
+                return logsValue;
+            }
+
         }
     }
 }
