@@ -35,7 +35,7 @@ namespace RumLogger.Application.Service
                     dynamic data = JObject.Parse(resultContent);
                     var processedLogs = data.summary;
                     var processedLogs2 = data.filteredLogs;
-                    return processedLogs + processedLogs2 ?? logsValue;
+                    return processedLogs + "\n\n"+ processedLogs2 ?? logsValue;
                 }
             }
             catch (Exception)

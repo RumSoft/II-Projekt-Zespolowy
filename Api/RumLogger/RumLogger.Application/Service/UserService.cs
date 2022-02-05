@@ -65,7 +65,7 @@ namespace RumLogger.Application.Service
             {
                 Id = user.Id,
                 Name = user.Name,
-                Logs = new StringBuilder().AppendJoin(" ", user.Logs.Select(x => x.LogValue).ToArray()).ToString(),
+                Logs = new StringBuilder().AppendJoin(" ", user.Logs.OrderBy(x => x.DateTime).Select(x => x.LogValue).ToArray()).ToString(),
                 FilteredLogs = user.ProcessedLogs,
                 LastLogged = user.LastUserLogTime
             };
@@ -88,7 +88,7 @@ namespace RumLogger.Application.Service
             try
             {
                 var user = await repository.GetUserWithLogs(userId);
-                var logs = new StringBuilder().AppendJoin(" ", user.Logs.Select(x => x.LogValue).ToArray()).ToString();
+                var logs = new StringBuilder().AppendJoin(" ", user.Logs.OrderBy(x => x.DateTime).Select(x => x.LogValue).ToArray()).ToString();
                 var processedLogs = await processingLogsService.GetProcessedLogs(logs);
                 user.ProcessedLogs = processedLogs;
                 await repository.UpdateUser(user);
