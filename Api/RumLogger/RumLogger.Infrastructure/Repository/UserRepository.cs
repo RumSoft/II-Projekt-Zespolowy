@@ -46,11 +46,6 @@ namespace RumLogger.Infrastructure.Repository
             return newUser.Entity;
         }
 
-        public Task<List<User>> GetUsersWithInactiveFilter()
-        {
-            return Task.FromResult(context.Users.Where(x => !x.IsProcessingUpToDate).ToList());
-        }
-
         public async Task AddLog(Log log)
         {
             await context.Logs.AddAsync(log);

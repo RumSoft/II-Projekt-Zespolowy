@@ -32,7 +32,6 @@ namespace RumLogger.Application.Service
                 user = new User()
                 {
                     Name = request.Name,
-                    IsProcessingUpToDate = false,
                     LastUserLogTime = DateTime.Now
                 };
                 user = await repository.AddUser(user);
@@ -40,7 +39,6 @@ namespace RumLogger.Application.Service
             else
             {
                 user = await repository.GetUser(userId);
-                user.IsProcessingUpToDate = false;
                 user.LastUserLogTime = DateTime.Now;
                 await repository.UpdateUser(user);
             }
@@ -49,11 +47,11 @@ namespace RumLogger.Application.Service
             {
                 UserId = user.Id,
                 LogValue = request.Logs,
-                ProcessedLogValue = await processingLogsService.GetProcessedLogs(request.Logs),
                 DateTime = DateTime.Now,
             };
 
-            await repository.AddLog(log);       
+            await repository.AddLog(log);
+            await UpdateProcessedLogs(user.Id);
         }
 
         public async Task<UserDetails> GetUser(int id)
@@ -68,7 +66,7 @@ namespace RumLogger.Application.Service
                 Id = user.Id,
                 Name = user.Name,
                 Logs = new StringBuilder().AppendJoin(" ", user.Logs.Select(x => x.LogValue).ToArray()).ToString(),
-                FilteredLogs = new StringBuilder().AppendJoin(" ", user.Logs.Select(x => x.ProcessedLogValue).ToArray()).ToString(),
+                FilteredLogs = user.ProcessedLogs,
                 LastLogged = user.LastUserLogTime
             };
             return result;
@@ -83,6 +81,24 @@ namespace RumLogger.Application.Service
                 Name = x.Name
             });
             return result.ToList();
+        }
+
+        private async Task UpdateProcessedLogs(int userId)
+        {
+            try
+            {
+                var user = await repository.GetUserWithLogs(userId);
+                var logs = new StringBuilder().AppendJoin(" ", user.Logs.Select(x => x.LogValue).ToArray()).ToString();
+                var processedLogs = await processingLogsService.GetProcessedLogs(logs);
+                user.ProcessedLogs = processedLogs;
+                await repository.UpdateUser(user);
+            }
+            catch (Exception ex)
+            {
+
+              
+            }
+         
         }
     }
 }

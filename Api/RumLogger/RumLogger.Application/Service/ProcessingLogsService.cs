@@ -33,7 +33,9 @@ namespace RumLogger.Application.Service
                     var result = await client.PostAsync("", content);
                     string resultContent = await result.Content.ReadAsStringAsync();
                     dynamic data = JObject.Parse(resultContent);
-                    return data.logs ?? logsValue;
+                    var processedLogs = data.summary;
+                    var processedLogs2 = data.filteredLogs;
+                    return processedLogs + processedLogs2 ?? logsValue;
                 }
             }
             catch (Exception)

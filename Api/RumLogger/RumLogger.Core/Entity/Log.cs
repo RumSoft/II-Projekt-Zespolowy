@@ -7,7 +7,6 @@ namespace RumLogger.Core.Entity
         public int Id { get; set; }
         public int UserId { get; set; }
         public string LogValue { get; set; }
-        public string ProcessedLogValue { get; set; }
         public DateTime DateTime { get; set; }
     }
 }
