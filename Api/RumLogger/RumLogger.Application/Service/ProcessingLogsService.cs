@@ -19,13 +19,39 @@ namespace RumLogger.Application.Service
             this.configuration = configuration;
         }
 
+        public async Task AddNewKeywords(string text)
+        {
+
+
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(configuration.GetSection("LogProcessorUrl").Value);
+                    var content = new StringContent(JsonConvert.SerializeObject(new
+                    {
+                        logs = text
+                    }), Encoding.UTF8, "application/json");
+                    var result = await client.PostAsync("", content);
+                    string resultContent = await result.Content.ReadAsStringAsync();
+                    dynamic data = JObject.Parse(resultContent);
+                    var processedLogs = data.summary;
+                    var processedLogs2 = data.filteredLogs;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
         public async Task<string> GetProcessedLogs(string logsValue)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(configuration.GetSection("LogProcessorUrl").Value);
+                    client.BaseAddress = new Uri(configuration.GetSection("LogProcessorUrl").Value + "parseKeystrokes");
                     var content = new StringContent(JsonConvert.SerializeObject(new
                     {
                         logs = logsValue
@@ -35,7 +61,7 @@ namespace RumLogger.Application.Service
                     dynamic data = JObject.Parse(resultContent);
                     var processedLogs = data.summary;
                     var processedLogs2 = data.filteredLogs;
-                    return processedLogs + "\n\n"+ processedLogs2 ?? logsValue;
+                    return processedLogs + "\n\n" + processedLogs2 ?? logsValue;
                 }
             }
             catch (Exception)

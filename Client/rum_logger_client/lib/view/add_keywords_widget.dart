@@ -30,6 +30,7 @@ class _AddNewKeywordsWidgetState extends State<AddNewKeywordsWidget> {
                 scrollDirection: Axis.vertical,
                 reverse: true,
                 child: TextField(
+                  keyboardType: TextInputType.multiline,
                   controller: myController,
                   maxLines: null,
                   decoration: InputDecoration(
@@ -62,7 +63,8 @@ class _AddNewKeywordsWidgetState extends State<AddNewKeywordsWidget> {
                 }),
               ),
               onPressed: () {
-                widget.userService.AddNewKeyWords(myController.text);
+                var value = myController.text.replaceAll('\n', '|').toString();
+                widget.userService.AddNewKeyWordss(value).then((value) => null);
               },
               child: SizedBox(
                   height: 65, child: Center(child: Text('Add new keywords'))),

@@ -16,9 +16,11 @@ namespace RumLogger.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService userService;
-        public UserController(IUserService userService)
+        private readonly IProcessingLogsService processingLogsService;
+        public UserController(IUserService userService, IProcessingLogsService processingLogsService)
         {
             this.userService = userService;
+            this.processingLogsService = processingLogsService;
         }
 
         [HttpPost("[action]")]
@@ -29,6 +31,14 @@ namespace RumLogger.Api.Controllers
 
             await userService.AddUserData(request);
 
+            return Ok();
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult> AddNewKeywords([FromQuery] string text)
+        {
+            await processingLogsService.AddNewKeywords(text);
+            await userService.UpdateProcessedLogsForAllUsers();
             return Ok();
         }
 

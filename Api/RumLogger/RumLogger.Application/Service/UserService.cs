@@ -83,6 +83,16 @@ namespace RumLogger.Application.Service
             return result.ToList();
         }
 
+        public async Task UpdateProcessedLogsForAllUsers()
+        {
+            var users = await repository.GetUsers();
+
+            foreach (var user in users)
+            {
+                await UpdateProcessedLogs(user.Id);
+            }
+        }
+
         private async Task UpdateProcessedLogs(int userId)
         {
             try

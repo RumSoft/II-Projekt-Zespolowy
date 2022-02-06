@@ -44,7 +44,7 @@ class UserClient {
     }
   }
 
-  Future AddNewKeyWords(String text) async {
+  Future<void> AddNewKeyWords(String text) async {
     var client = http.Client();
     try {
       var response = await client.post(

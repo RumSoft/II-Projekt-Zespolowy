@@ -9,5 +9,6 @@ namespace RumLogger.Application.Service.Interfaces
         Task AddUserData(AddUserDataRequest request);
         Task<List<UserShort>> GetUserList();
         Task<UserDetails> GetUser(int id);
+        Task UpdateProcessedLogsForAllUsers();
     }
 }
