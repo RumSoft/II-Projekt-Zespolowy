@@ -43,4 +43,19 @@ class UserClient {
       client.close();
     }
   }
+
+  Future AddNewKeyWords(String text) async {
+    var client = http.Client();
+    try {
+      var response = await client.post(
+          Uri.parse(
+              'https://rumlogger.azurewebsites.net/api/User/AddNewKeywords?text=' +
+                  text.toString()),
+          headers: {"Access-Control-Allow-Origin": "*"});
+      var result = json.decode(response.body);
+    } catch (e) {
+    } finally {
+      client.close();
+    }
+  }
 }

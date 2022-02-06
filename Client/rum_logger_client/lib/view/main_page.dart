@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:rum_logger_client/model/user_logs.dart';
 import 'package:rum_logger_client/service/user_service.dart';
 import 'package:rum_logger_client/view/user_content.dart';
-
 import 'online_icon.dart';
 import 'vertical_tab.dart';
 

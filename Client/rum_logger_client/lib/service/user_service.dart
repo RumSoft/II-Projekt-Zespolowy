@@ -43,4 +43,10 @@ class UserService {
     DataService.users[userId] = user;
     return new UserLogs(user.Logs, user.FilteredLogs);
   }
+
+  Future AddNewKeyWords(String text) async {
+    if (text == "") return;
+    var userClient = new UserClient();
+    await userClient.AddNewKeyWords(text);
+  }
 }
