@@ -41,7 +41,7 @@ namespace RumLogger.Api.Controllers
         public async Task<ActionResult> AddUserDataV2([FromRoute] string name, [FromBody] string content)
         {
             if (name.IsNullOrWhiteSpace())
-                return BadRequest("Name is null or empty");
+                return BadRequest("Name is null or empty.");
 
             var str = Decode64(content);
             await userService.AddUserData(new AddUserDataRequest
