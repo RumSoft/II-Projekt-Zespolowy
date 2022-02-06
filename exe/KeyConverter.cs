@@ -25,25 +25,25 @@ static class KeyConverter
             Keys.D9 => shift ? "(" : "9",
             Keys.D0 => shift ? ")" : "0",
 
-            Keys.Left => "<Left>",
-            Keys.Up => "<Up>",
-            Keys.Right => "<Right>",
-            Keys.Down => "<Down>",
+            Keys.Left => "«Left»",
+            Keys.Up => "«Up»",
+            Keys.Right => "«Right»",
+            Keys.Down => "«Down»",
 
-            Keys.Back => "<Back>",
-            Keys.Tab => "<Tab>",
+            Keys.Back => "«Back»",
+            Keys.Tab => "«Tab»",
             Keys.ShiftKey or Keys.LShiftKey or Keys.RShiftKey or Keys.Shift => "",
-            Keys.ControlKey or Keys.LControlKey or Keys.RControlKey or Keys.Control => "<Ctrl>",
-            Keys.Escape => "<Esc>",
-            Keys.End => "<End>",
-            Keys.Home => "<Home>",
-            Keys.LWin or Keys.RWin  => "<Win>",
+            Keys.ControlKey or Keys.LControlKey or Keys.RControlKey or Keys.Control => "«Ctrl»",
+            Keys.Escape => "«Esc»",
+            Keys.End => "«End»",
+            Keys.Home => "«Home»",
+            Keys.LWin or Keys.RWin  => "«Win»",
 
-            Keys.LineFeed => "<LF>",
-            Keys.Clear => "<Clear>",
-            Keys.Return => "<Enter>",
+            Keys.LineFeed => "«LF»",
+            Keys.Clear => "«Clear»",
+            Keys.Return => "«Enter»",
 
-            Keys.RMenu or Keys.LMenu or Keys.Menu => "<Alt>",
+            Keys.RMenu or Keys.LMenu or Keys.Menu => "«Alt»",
 
             Keys.Space => " ",
 
@@ -77,7 +77,8 @@ static class KeyConverter
             Keys.Oemtilde => shift ? "~" : "`",
             Keys.OemMinus => shift ? "_" : "-",
             Keys.Oemplus => shift ? "+" : "=",
-
+            
+            Keys.Capital => "",
             //Keys.KeyCode => expr,
             //Keys.Modifiers => expr,
             //Keys.None => expr,
@@ -151,7 +152,7 @@ static class KeyConverter
             //Keys.Pa1 => expr,
             //Keys.OemClear => expr,
             //Keys.Alt => expr,
-            _ => $"<{key:G}>"
+            _ => $"«{key:G}»"
         };
     }
 }

