@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace RumLogger.Application.Service
 {
@@ -21,17 +22,26 @@ namespace RumLogger.Application.Service
 
         public async Task AddNewKeywords(string text)
         {
-
-
             try
             {
+                List<KeyValuePair<string, string[]>> keywords = new List<KeyValuePair<string, string[]>>();
+
+                var categories = text.Split('|');
+                foreach (var category in categories)
+                {
+                    var key = category.Split(':')[0];
+                    var valuesString = category.Split(':')[1].Split(';');
+                    var keyValue = new KeyValuePair<string, string[]>(key, valuesString);
+                    keywords.Add(keyValue);
+                }
+
+                string jsonString = JsonConvert.SerializeObject(keywords);
+
+
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(configuration.GetSection("LogProcessorUrl").Value);
-                    var content = new StringContent(JsonConvert.SerializeObject(new
-                    {
-                        logs = text
-                    }), Encoding.UTF8, "application/json");
+                    client.BaseAddress = new Uri(configuration.GetSection("LogProcessorUrl").Value + "addKeywords");
+                    var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                     var result = await client.PostAsync("", content);
                     string resultContent = await result.Content.ReadAsStringAsync();
                     dynamic data = JObject.Parse(resultContent);
