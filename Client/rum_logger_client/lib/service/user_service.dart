@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:rum_logger_client/client/user_client.dart';
 import 'package:rum_logger_client/model/user.dart';
+import 'package:rum_logger_client/model/user_logs.dart';
 import 'package:rum_logger_client/view/main_page.dart';
 
 class DataService {

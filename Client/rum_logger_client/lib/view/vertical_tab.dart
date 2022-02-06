@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rum_logger_client/service/user_service.dart';
+import 'package:rum_logger_client/view/user_content.dart';
 
 import 'main_page.dart';
 
