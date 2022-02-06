@@ -17,10 +17,10 @@ class OnlineWidget extends StatefulWidget {
 
 class _OnlineWidgetState extends State<OnlineWidget> {
   UserService userService = UserService();
-  Color iconColor = Colors.green;
+  Color iconColor = Colors.red;
 
   _OnlineWidgetState() {
-    const oneSec = Duration(seconds: 10);
+    const oneSec = Duration(seconds: 1);
 
     Timer.periodic(
         oneSec,

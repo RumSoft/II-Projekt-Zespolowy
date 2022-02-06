@@ -27,7 +27,7 @@ class UserService {
     if (!DataService.users.containsKey(userId)) return false;
     var lastLogged = DataService.users[userId]?.LastLogged ?? DateTime.now();
     var span = DateTime.now().difference(lastLogged).inSeconds;
-    if (span > 80)
+    if (span > 60)
       return false;
     else
       return true;
