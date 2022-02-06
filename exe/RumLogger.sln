@@ -1,25 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RumLogger", "RumLogger.vcxproj", "{26FE3BBC-CDC9-4290-82CF-36CA350900B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RumLogger", "RumLogger.csproj", "{3BADFACD-FA0A-444F-B3BD-43E97D01AE73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{26FE3BBC-CDC9-4290-82CF-36CA350900B4}.Debug|x86.ActiveCfg = Debug|Win32
-		{26FE3BBC-CDC9-4290-82CF-36CA350900B4}.Debug|x86.Build.0 = Debug|Win32
-		{26FE3BBC-CDC9-4290-82CF-36CA350900B4}.Release|x86.ActiveCfg = Release|Win32
-		{26FE3BBC-CDC9-4290-82CF-36CA350900B4}.Release|x86.Build.0 = Release|Win32
+		{3BADFACD-FA0A-444F-B3BD-43E97D01AE73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BADFACD-FA0A-444F-B3BD-43E97D01AE73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BADFACD-FA0A-444F-B3BD-43E97D01AE73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BADFACD-FA0A-444F-B3BD-43E97D01AE73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {56AACB28-C997-48DF-8D01-59280C819577}
+		SolutionGuid = {88B9D3AB-7F78-4F20-BE77-3D7F14C024FD}
 	EndGlobalSection
 EndGlobal
