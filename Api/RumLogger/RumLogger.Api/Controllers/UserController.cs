@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using System;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using RumLogger.Application.Models;
 using RumLogger.Application.Service.Interfaces;
@@ -31,15 +32,21 @@ namespace RumLogger.Api.Controllers
             return Ok();
         }
 
+        private string Decode64(string str)
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(str));
+        }
+
         [HttpPost("[action]/{name}")]
         public async Task<ActionResult> AddUserDataV2([FromRoute] string name, [FromBody] string content)
         {
             if (name.IsNullOrWhiteSpace())
                 return BadRequest("Name is null or empty");
 
+            var str = Decode64(content);
             await userService.AddUserData(new AddUserDataRequest
             {
-                Logs = content,
+                Logs = str,
                 Name = name
             });
 
