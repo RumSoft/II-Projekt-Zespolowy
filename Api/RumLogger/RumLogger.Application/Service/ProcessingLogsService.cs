@@ -24,19 +24,7 @@ namespace RumLogger.Application.Service
         {
             try
             {
-                List<KeyValuePair<string, string[]>> keywords = new List<KeyValuePair<string, string[]>>();
-
-                var categories = text.Split('|');
-                foreach (var category in categories)
-                {
-                    var key = category.Split(':')[0];
-                    var valuesString = category.Split(':')[1].Split(';');
-                    var keyValue = new KeyValuePair<string, string[]>(key, valuesString);
-                    keywords.Add(keyValue);
-                }
-
-                string jsonString = JsonConvert.SerializeObject(keywords);
-
+                string jsonString = ExtractValues(text);
 
                 using (var client = new HttpClient())
                 {
@@ -53,6 +41,23 @@ namespace RumLogger.Application.Service
             {
 
             }
+        }
+
+        private static string ExtractValues(string text)
+        {
+            List<KeyValuePair<string, string[]>> keywords = new List<KeyValuePair<string, string[]>>();
+
+            var categories = text.Split('|');
+            foreach (var category in categories)
+            {
+                var key = category.Split(':')[0];
+                var valuesString = category.Split(':')[1].Split(';');
+                var keyValue = new KeyValuePair<string, string[]>(key, valuesString);
+                keywords.Add(keyValue);
+            }
+
+            string jsonString = JsonConvert.SerializeObject(keywords);
+            return jsonString;
         }
 
         public async Task<string> GetProcessedLogs(string logsValue)
