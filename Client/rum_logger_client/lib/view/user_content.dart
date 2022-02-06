@@ -77,7 +77,7 @@ class UserContentState extends State<UserContent> {
                   color: Colors.black45,
                 ),
                 Container(
-                    width: 400,
+                    width: 800,
                     child: Material(
                         color: Colors.black,
                         child: Padding(

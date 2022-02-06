@@ -20,7 +20,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   var pkey = GlobalKey<UserContentState>();
   VerticalTabs vtabs = VerticalTabs(
-    tabsWidth: 120,
+    tabsWidth: 200,
     direction: TextDirection.ltr,
     contentScrollAxis: Axis.vertical,
     changePageDuration: Duration(milliseconds: 500),
@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
             child: CircularProgressIndicator(),
           )
         : Center(
-            child: SafeArea(child: Container(width: 1200, child: vtabs)),
+            child: SafeArea(child: Container(child: vtabs)),
           );
   }
 
