@@ -33,69 +33,88 @@ class UserContentState extends State<UserContent> {
 
   @override
   Widget build(BuildContext context) {
+    var userName = Row(
+      children: [
+        OnlineWidget(widget.Id),
+        Text(
+          widget.caption,
+          style: TextStyle(fontSize: 20),
+        ),
+      ],
+    );
+
+    var divider = const Divider(
+      height: 15,
+      color: Colors.black45,
+    );
+
+    var verticalDivider = const VerticalDivider(
+      width: 15,
+      color: Colors.black45,
+    );
+
+    var rawData = Expanded(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Center(child: Text("Raw data:")),
+        Expanded(
+          child: Material(
+              color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: RawScrollbar(
+                  thumbColor: Colors.orangeAccent,
+                  radius: const Radius.circular(20),
+                  thickness: 5,
+                  child: SingleChildScrollView(
+                    reverse: false,
+                    child: SelectableText(widget.description.Log,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(color: Colors.white)),
+                  ),
+                ),
+              )),
+        ),
+      ],
+    ));
+
+    var filteredData = Column(
+      children: [
+        const Text("Filtered data:"),
+        Expanded(
+          child: SizedBox(
+              width: 800,
+              child: Material(
+                  color: Colors.black,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: RawScrollbar(
+                      thumbColor: Colors.orangeAccent,
+                      radius: const Radius.circular(20),
+                      thickness: 5,
+                      child: SingleChildScrollView(
+                        reverse: false,
+                        child: SelectableText(widget.description.FilteredLogs,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                  ))),
+        ),
+      ],
+    );
+
     return Container(
-      margin: EdgeInsets.all(1),
-      padding: EdgeInsets.all(2),
+      margin: const EdgeInsets.all(1),
+      padding: const EdgeInsets.all(2),
       child: Column(
         children: <Widget>[
-          Row(
-            children: [
-              OnlineWidget(widget.Id),
-              Text(
-                widget.caption,
-                style: TextStyle(fontSize: 20),
-              ),
-            ],
-          ),
-          Divider(
-            height: 15,
-            color: Colors.black45,
-          ),
+          userName,
+          divider,
           Expanded(
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                    child: Material(
-                        color: Colors.black,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: RawScrollbar(
-                            thumbColor: Colors.orangeAccent,
-                            radius: Radius.circular(20),
-                            thickness: 5,
-                            child: SingleChildScrollView(
-                              reverse: false,
-                              child: SelectableText(widget.description.Log,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ),
-                        ))),
-                VerticalDivider(
-                  width: 15,
-                  color: Colors.black45,
-                ),
-                Container(
-                    width: 800,
-                    child: Material(
-                        color: Colors.black,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: RawScrollbar(
-                            thumbColor: Colors.orangeAccent,
-                            radius: Radius.circular(20),
-                            thickness: 5,
-                            child: SingleChildScrollView(
-                              reverse: false,
-                              child: SelectableText(
-                                  widget.description.FilteredLogs,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ),
-                        )))
-              ],
+              children: [rawData, verticalDivider, filteredData],
             ),
           ),
         ],
