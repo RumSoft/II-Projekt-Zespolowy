@@ -3,7 +3,6 @@ using System.Windows.Forms;
 
 namespace RumLogger;
 
-public delegate string Converter(Keys key, bool shift, bool caps);
 
 static class KeyConverter
 {

