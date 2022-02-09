@@ -23,13 +23,18 @@ namespace RumLogger.Api.Controllers
             this.processingLogsService = processingLogsService;
         }
 
-        [HttpPost("[action]")]
-        public async Task<ActionResult> AddUserData([FromQuery] AddUserDataRequest request)
+        [HttpPost("[action]/{name}")]
+        public async Task<ActionResult> AddUserDataV2([FromRoute] string name, [FromBody] string content)
         {
-            if (request.Name.IsNullOrWhiteSpace())
+            if (name.IsNullOrWhiteSpace())
                 return BadRequest("Name is null or empty");
 
-            await userService.AddUserData(request);
+            var str = Decode64(content);
+            await userService.AddUserData(new AddUserDataRequest
+            {
+                Logs = str,
+                Name = name
+            });
 
             return Ok();
         }
@@ -45,22 +50,6 @@ namespace RumLogger.Api.Controllers
         private string Decode64(string str)
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(str));
-        }
-
-        [HttpPost("[action]/{name}")]
-        public async Task<ActionResult> AddUserDataV2([FromRoute] string name, [FromBody] string content)
-        {
-            if (name.IsNullOrWhiteSpace())
-                return BadRequest("Name is null or empty");
-
-            var str = Decode64(content);
-            await userService.AddUserData(new AddUserDataRequest
-            {
-                Logs = str,
-                Name = name
-            });
-
-            return Ok();
         }
 
         [HttpGet("[action]")]
