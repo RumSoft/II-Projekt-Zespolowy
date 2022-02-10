@@ -6,13 +6,14 @@ namespace RumLogger;
 
 static class KeyConverter
 {
-    internal static string ToString(Keys key, bool shift, bool caps)
-    {
-        return key switch
+    internal static string ToString(Keys key, bool shift, bool caps) =>
+        key switch
         {
-            >= Keys.A and <= Keys.Z when shift || caps => key.ToString(), // upper
-            >= Keys.A and <= Keys.Z  => key.ToString().ToLower(), // lower
+            // letters
+            >= Keys.A and <= Keys.Z when shift ^ caps => key.ToString(),
+            >= Keys.A and <= Keys.Z  => key.ToString().ToLower(), 
 
+            //digits
             Keys.D1 => shift ? "!" : "1",
             Keys.D2 => shift ? "@" : "2",
             Keys.D3 => shift ? "#" : "3",
@@ -24,11 +25,13 @@ static class KeyConverter
             Keys.D9 => shift ? "(" : "9",
             Keys.D0 => shift ? ")" : "0",
 
+            //arrows
             Keys.Left => "«Left»",
             Keys.Up => "«Up»",
             Keys.Right => "«Right»",
             Keys.Down => "«Down»",
 
+            //system
             Keys.Back => "«Back»",
             Keys.Tab => "«Tab»",
             Keys.ShiftKey or Keys.LShiftKey or Keys.RShiftKey or Keys.Shift => "",
@@ -153,5 +156,4 @@ static class KeyConverter
             //Keys.Alt => expr,
             _ => $"«{key:G}»"
         };
-    }
 }
