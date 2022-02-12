@@ -7,7 +7,6 @@ using RumLogger;
 
 Trace.Listeners.Add(new ConsoleTraceListener());
 
-
 var proc = Process.GetCurrentProcess();
 var currentPath = proc.MainModule.FileName;
 var currentFile = new FileInfo(currentPath);
@@ -21,7 +20,7 @@ targetFolder?.Create();
 
 if (currentPath == targetPath)
 {
-    Trace.WriteLine("Application in final folder");
+    Trace.WriteLine("Application is in final folder");
 }
 else
 {
@@ -29,7 +28,7 @@ else
     {
         Trace.WriteLine($"Copying to {targetPath}...");
         currentFile.CopyTo(targetPath);
-        Trace.WriteLine($"Copied.");
+        Trace.WriteLine($"Copied..");
     }
     catch (Exception ex)
     {
