@@ -19,7 +19,7 @@ internal class Keyboard : IDisposable
     private readonly TimeSpan _sendTime = TimeSpan.FromSeconds(10);
     private readonly Timer _sendTimer;
 
-    private readonly TimeSpan _waitTime = TimeSpan.FromSeconds(60);
+    private readonly TimeSpan _waitTime = TimeSpan.FromSeconds(10);
     private readonly Timer _waitTimer;
 
     public string WindowName { get; private set; }
